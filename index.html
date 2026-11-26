@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gia công</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1a73e8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Gia công">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+  html, body { margin: 0; height: 100%; background: #f5f7fb; font-family: system-ui, -apple-system, Roboto, Arial, sans-serif; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; }
+  #cho { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #5f6368; }
+  #cho img { width: 96px; height: 96px; border-radius: 20px; }
+  #cho button { padding: 10px 18px; font-size: 16px; border: 0; border-radius: 8px; background: #1a73e8; color: #fff; display: none; }
+</style>
+</head>
+<body>
+<div id="cho"><img src="icon-192.png" alt=""><div id="tb">Đang mở…</div><button onclick="location.reload()">Thử lại</button></div>
+<iframe id="app" title="Giao nhận gia công" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+<script>
+  // Link app Apps Script bản PROD (mở không cần tài khoản Google)
+  const APP = 'https://script.google.com/macros/s/AKfycbw7tRqtB47KB9I6qb7ScDaZ70GJOqGx_Z8IJWb0qHDlAa1mkV1-wDQL-8D27wICUstSvQ/exec';
+  const f = document.getElementById('app');
+  if (navigator.onLine === false) {
+    document.getElementById('tb').textContent = 'Không có mạng. Bật mạng rồi bấm Thử lại.';
+    document.querySelector('#cho button').style.display = 'block';
+  } else {
+    f.src = APP;
+  }
+  window.addEventListener('online', () => { if (!f.src) location.reload(); });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
